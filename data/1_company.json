@@ -1,0 +1,8 @@
+{
+    "endpoint": "/company",
+    "data": [
+        {
+            "post": {"identity": "google","password": "google123"}
+        }
+    ]
+}

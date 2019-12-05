@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
+import {BrowserRouter as Router} from 'react-router-dom';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Menu from './left/menu';
+import Content from './rigth/content';
+
+class App extends React.Component {
+
+  constructor(){
+    super();
+    this.state = {
+      link:null
+    }
+  }
+
+  tampilin(link){
+    this.setState({
+      link:link
+    })
+  }
+  
+  render(){
+      return (
+        <Router>
+        <div className="flexMenu">
+          <Menu tampilkan={(link) => {this.tampilin(link)}}/>
+          <Content link={this.state.link}/>
+        </div>
+        </Router>
+      )
+  }
 }
 
 export default App;

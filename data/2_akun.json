@@ -1,0 +1,11 @@
+{
+    "endpoint": "/user/log_in",
+    "note": "mantap jiwa memang",
+    "data": [
+        {
+            "post": {"identity": "google","password": "google123"},
+            "note": "kamu bisa lakukan ini",
+            "header": null
+        }
+    ]
+}

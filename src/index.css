@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.flexMenu{
+  display: flex;
+  height: 100vh;
+  color: white;
+}
+
+.flexMenu > div:nth-child(1) {
+  width: 40vh;
+  background: green;
+  padding: 10px;
+}
+
+.flexMenu > div:nth-child(2) {
+  padding: 10px;
+  width: 175vh;
+  background: lightslategrey;
+}
