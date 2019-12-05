@@ -60,7 +60,7 @@ class Content extends React.Component {
       }
     }
 
-    request(data){
+    request(){
       axios.get("http://localhost:9009" + this.state.endpoint)
       .then(res=> {
         console.log(res)
@@ -75,7 +75,7 @@ class Content extends React.Component {
             {
               data['endpoint']
             }
-            <button onClick={() => this.request("d")}>Send</button>
+            <button onClick={() => this.request()}>Send</button>
           </div>
         )
       }else{
