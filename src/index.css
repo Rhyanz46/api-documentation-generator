@@ -20,12 +20,135 @@ code {
 
 .flexMenu > div:nth-child(1) {
   width: 40vh;
-  background: green;
+  background: #4f6173;
   padding: 10px;
+  height: 100vh;
+  position: fixed;
+}
+
+.flexMenu > div:nth-child(1) > nav > ul > li > a {
+  color: white;
+  text-decoration: none;
+}
+
+.flexMenu > div:nth-child(1) > nav > ul > li{
+  list-style-type: none;
 }
 
 .flexMenu > div:nth-child(2) {
   padding: 10px;
   width: 175vh;
   background: lightslategrey;
+  margin-left: 43vh;
+  height: 120vh;
+}
+
+.doc-container{
+  padding: 5px;
+}
+
+.header-swagger{
+  display: flex;
+  border-radius: 4px;
+  background: honeydew;
+  padding: 3px;
+}
+
+.header-swagger > div:nth-child(1) {
+  background: #4CAF50;
+  padding: 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.header-swagger > div:nth-child(2) {
+  margin-left: 10px;
+  color: black;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.judul-ket-doc{
+  background: #d6d8de;
+  color: black;
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.judul-ket-doc > h4 {
+  color: #34547d;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.judul-ket-doc > p {
+  color: #716451;
+}
+
+.example-value-doc{
+  background: #d6d8de;
+  color: black;
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.example-value-doc > h4{
+  color: #34547d;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.example-value-doc > textarea{
+  padding: 10px;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+  background: #EEEEEE;
+  width: 97%;
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+}
+
+.example-res-doc{
+  background: #d6d8de;
+  color: black;
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.example-res-doc > h4{
+  color: #34547d;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.btn-send-doc{
+  background: #4caf50;
+  border: none;
+  padding: 15px 34px;
+  color: white;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.btn-reset-doc{
+  background: #4caf50;
+  border: none;
+  padding: 15px 34px;
+  color: white;
+  border-radius: 3px;
+}
+
+.actions-doc{
+  padding-top: 24px;
+}
+
+/* #908480 */
+
+.doc-actions-doc{
+  padding-top: 15px;
 }
