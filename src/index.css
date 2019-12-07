@@ -37,10 +37,12 @@ code {
 
 .flexMenu > div:nth-child(2) {
   padding: 10px;
-  width: 175vh;
+  width: 145vh;
   background: lightslategrey;
   margin-left: 43vh;
-  height: 120vh;
+  height: auto;
+  min-height: 100vh;
+  position: absolute;
 }
 
 .doc-container{
@@ -151,4 +153,15 @@ code {
 
 .doc-actions-doc{
   padding-top: 15px;
+}
+
+.doc-response{
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word; 
+    height: auto;
+    width: 100%;
+    /* overflow: scroll; */
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 
-
 class Docs extends React.Component{
     constructor(props){
       super(props);
@@ -41,7 +40,7 @@ class Docs extends React.Component{
     request(){
       let method = this.state.temp_method[this.state.index];
       let data = JSON.parse(this.state.temp_data);
-      axios[method]("http://0.0.0.0:1435" + this.state.endpoint, data)
+      axios[method]("http://localhost:1435" + this.state.endpoint, data)
       .then(res=> {
         this.setState({
           res_data:JSON.stringify(res.data, undefined, 2)
@@ -54,14 +53,19 @@ class Docs extends React.Component{
                 res_data:"method not allowed"
               })
             }
-            if(res.response['status'] === 404){
+            else if(res.response['status'] === 404){
               this.setState({
                 res_data:"url tidak ada di server ini"
               })
             }
-            if(res.response['status'] === 400){
+            else if(res.response['status'] === 400){
               this.setState({
                 res_data:"data tidak valid"
+              })
+            }
+            else{
+              this.setState({
+                res_data:JSON.stringify(res.response.data, undefined, 2)
               })
             }
           } catch (error) {
@@ -120,7 +124,7 @@ class Docs extends React.Component{
             {
               this.state.res_data ? <div className="example-res-doc">
               <h4>example response</h4>
-              <pre>
+              <pre className="doc-response">
                 {this.state.res_data}
               </pre>
             </div> : ''
