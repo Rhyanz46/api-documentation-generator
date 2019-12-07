@@ -26,6 +26,7 @@ class Docs extends React.Component{
         add_method.push('get')
       }
       this.setState({
+        tab:'data',
         index:0,
         title:data['title'],
         desc:data['desc'],
@@ -33,6 +34,7 @@ class Docs extends React.Component{
         data_from_api:props.waw,
         endpoint:data['endpoint'],
         res_data:null,
+        res_header:null,
         temp_data:JSON.stringify(data[add_method[this.state.index]].example, undefined, 2)
       })
     }
@@ -42,8 +44,10 @@ class Docs extends React.Component{
       let data = JSON.parse(this.state.temp_data);
       axios[method]("http://localhost:1435" + this.state.endpoint, data)
       .then(res=> {
+        console.log(res)
         this.setState({
-          res_data:JSON.stringify(res.data, undefined, 2)
+          res_data:JSON.stringify(res.data, undefined, 2),
+          res_header:JSON.stringify(res.headers, undefined, 2),
         })
       })
       .catch(res=>{
@@ -114,16 +118,29 @@ class Docs extends React.Component{
               </div>
             }
             <div className="example-value-doc">
-              <h4>example value</h4>
-              <textarea
+              <h4><span onClick={() => {this.setState({tab:'data'})}}>example data</span> | <span onClick={() => {this.setState({tab:'header'})}}>set headers</span></h4>
+              {this.state.tab === "data" ? <textarea
                 rows="10" 
                 value={this.state.temp_data}
                 onChange={(e)=>this.gantiValue(e, 'temp_data')}>
-              </textarea>
+              </textarea> : ''}
+              {this.state.tab === "header" ? 
+              <div className="header-field">
+                <input type="text"/> <input type="text"/> 
+              </div>
+               : ''}
             </div>
             {
+              this.state.res_header ? <div className="example-res-doc">
+              <h4>header response</h4>
+              <pre className="doc-response">
+                {this.state.res_header}
+              </pre>
+            </div> : ''
+            }
+            {
               this.state.res_data ? <div className="example-res-doc">
-              <h4>example response</h4>
+              <h4>data response</h4>
               <pre className="doc-response">
                 {this.state.res_data}
               </pre>

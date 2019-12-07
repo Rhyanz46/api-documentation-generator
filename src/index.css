@@ -37,7 +37,7 @@ code {
 
 .flexMenu > div:nth-child(2) {
   padding: 10px;
-  width: 145vh;
+  width: 165vh;
   background: lightslategrey;
   margin-left: 43vh;
   height: auto;
@@ -100,7 +100,23 @@ code {
 .example-value-doc > h4{
   color: #34547d;
   text-transform: uppercase;
-  text-decoration: underline;
+  cursor: pointer;
+}
+
+.example-value-doc > h4:hover{
+  color: rgb(79, 97, 115);
+}
+
+.example-value-doc > h4 > span:nth-child(1):hover{
+  color: #90b177 !important;
+}
+
+.example-value-doc > h4 > span:nth-child(2) {
+  color: #90b177 !important;
+}
+
+.example-value-doc > h4 > span:nth-child(2):hover{
+  color: rgb(79, 97, 115) !important;
 }
 
 .example-value-doc > textarea{
@@ -164,4 +180,17 @@ code {
     height: auto;
     width: 100%;
     /* overflow: scroll; */
+}
+
+.header-field{
+  display: flex;
+  justify-content: space-between;
+  width: 44%;
+}
+
+.header-field > input[type="text"]{
+  background: #8c8c8c;
+  width: 206px;
+  padding: 6px;
+  border: none;
 }
