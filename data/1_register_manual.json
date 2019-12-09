@@ -1,13 +1,13 @@
 {
     "title":"akun",
-    "endpoint": "/user/log_in",
+    "endpoint": "/user/sign_up",
     "desc": "mantap jiwa memang",
     "post": {
         "example": {
-            "identity": "google",
-            "password": "google123"
+            "email": "host.localhost@gmail.com"
         },
         "desc": null,
+        "content_type": "json",
         "header": null
     }
 }

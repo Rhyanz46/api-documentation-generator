@@ -19,7 +19,7 @@ code {
 }
 
 .flexMenu > div:nth-child(1) {
-  width: 40vh;
+  width: 36vh;
   background: #4f6173;
   padding: 10px;
   height: 100vh;
@@ -37,16 +37,24 @@ code {
 
 .flexMenu > div:nth-child(2) {
   padding: 10px;
-  width: 165vh;
+  width: 169vh;
   background: lightslategrey;
-  margin-left: 43vh;
+  margin-left: 39vh;
   height: auto;
   min-height: 100vh;
   position: absolute;
+  /* display: flex; */
 }
 
 .doc-container{
   padding: 5px;
+  width: 85.5vh;
+  position: absolute;
+}
+
+.res-container{
+  color: white;
+  padding-left: 87vh;
 }
 
 .header-swagger{
@@ -71,11 +79,22 @@ code {
   border-radius: 4px;
 }
 
+.header-swagger > div:nth-child(3) {
+  padding: 14px 10px 10px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-size: x-small;
+  background: rebeccapurple;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
 .judul-ket-doc{
   background: #d6d8de;
   color: black;
   padding: 20px;
-  margin-top: 10px;
+  margin-top: 5px;
   border-radius: 2px;
 }
 
@@ -95,6 +114,7 @@ code {
   padding: 20px;
   margin-top: 10px;
   border-radius: 2px;
+  margin-bottom: 10px;
 }
 
 .example-value-doc > h4{
@@ -113,10 +133,13 @@ code {
 
 .example-value-doc > h4 > span:nth-child(2) {
   color: #90b177 !important;
+  padding: 8px;
+  border-radius: 10px;
 }
 
 .example-value-doc > h4 > span:nth-child(2):hover{
   color: rgb(79, 97, 115) !important;
+  background: #d6d8de !important;
 }
 
 .example-value-doc > textarea{
@@ -134,7 +157,7 @@ code {
   background: #d6d8de;
   color: black;
   padding: 20px;
-  margin-top: 10px;
+  margin-top: 5px;
   border-radius: 2px;
 }
 
@@ -167,7 +190,7 @@ code {
 
 /* #908480 */
 
-.doc-actions-doc{
+.doc-action{
   padding-top: 15px;
 }
 
@@ -193,4 +216,16 @@ code {
   width: 206px;
   padding: 6px;
   border: none;
+  margin-bottom: 10px;
+}
+
+.black-color{
+  color: black !important;
+}
+
+.form-field{
+  background: darkgray;
+  padding: 5px;
+  border: none;
+  color: #7b4a00;
 }

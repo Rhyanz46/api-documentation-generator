@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
+const BASE_URL_MENU = 'http://192.168.8.102:9009';
 class Menu extends React.Component{
     constructor(props){
         super(props);
@@ -12,7 +13,7 @@ class Menu extends React.Component{
     }
 
     componentDidMount(){
-        axios.get('http://localhost:9009/menu')
+        axios.get(`${BASE_URL_MENU}/menu`)
         .then(res => {
             this.setState({
                 data : res.data.data
@@ -21,7 +22,7 @@ class Menu extends React.Component{
     }
 
     gantimenu(file_name){
-        axios.get(`http://localhost:9009/docs?part=${file_name}`)
+        axios.get(`${BASE_URL_MENU}/docs?part=${file_name}`)
         .then(res => {
             this.props.tampilkan(res.data.data);
         })
@@ -33,9 +34,10 @@ class Menu extends React.Component{
             for (let key in this.state.data){
                 if(this.state.data.hasOwnProperty(key)){
                   let file_name = `${key}_${this.state.data[key]}`;
+                  file_name = file_name.split(' ').join('_')
                   resutl.push(
                     <li key={key}>
-                        <Link onClick={()=>this.gantimenu(file_name)} to={'docs#' + this.state.data[key]}>{this.state.data[key]}</Link>
+                        <Link style={{textTransform: 'capitalize'}} onClick={()=>this.gantimenu(file_name)} to={'docs#' + this.state.data[key]}>{this.state.data[key]}</Link>
                     </li>
                   )
                 }

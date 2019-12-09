@@ -1,0 +1,15 @@
+{
+    "title":"akun",
+    "endpoint": "/company",
+    "desc": "mantap jiwa memang",
+    "post": {
+        "example": {
+            "identity": "google",
+            "password": "daewdewdw",
+            "passwordwssw": "google123"
+        },
+        "desc": null,
+        "header": null,
+        "content_type": "form"
+    }
+}

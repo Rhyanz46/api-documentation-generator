@@ -14,9 +14,9 @@ class App extends React.Component {
     }
   }
 
-  tampilin(link){
+  tampilin(data){
     this.setState({
-      link:link
+      link:data
     })
   }
   

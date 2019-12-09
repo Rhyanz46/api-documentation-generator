@@ -21,12 +21,13 @@ app.get('/menu', (req, res) => {
         if(is_file){
             try{
                 let menu = file.split('_');
-                let nomor = menu[0];
+                let nomor = menu.shift(); // memindahkan index pertama ke dalam variabel nomor
                 if(Number.isNaN(Number(nomor))){
                     let MakeError = new Error()
                     MakeError()
                 }   
-                data[nomor]=menu[1].split('.')[0]
+                menu = menu.join(' ').split('.')[0]
+                data[nomor]=menu
             }catch(e){}
         }
     })
