@@ -41,7 +41,7 @@ code {
   background: lightslategrey;
   margin-left: 39vh;
   height: auto;
-  min-height: 100vh;
+  min-height: 110vh;
   position: absolute;
   /* display: flex; */
 }
@@ -77,6 +77,14 @@ code {
   color: black;
   padding: 10px;
   border-radius: 4px;
+}
+
+.endpoint-field{
+  font-size: medium;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 200%;
 }
 
 .header-swagger > div:nth-child(3) {

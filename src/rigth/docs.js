@@ -13,13 +13,14 @@ class Docs extends React.Component{
         index:0,
         temp_data:null,
         temp_method:null,
+        endpoint:null,
         title:null,
         desc:null,
         res_show:'data',
         content_type: 'json',
         content_type_list:{
-          'json' : {'Content-Type':'application/json'},
-          'form' : {'Content-Type':'multipart/form-data'}
+          'json' : 'application/json',
+          'form' : 'multipart/form-data'
         },
         res_data:null
       }
@@ -34,6 +35,22 @@ class Docs extends React.Component{
       if(Object.keys(data).includes('get')){
         add_method.push('get')
       }
+      let content_type = data[add_method[this.state.index]].content_type.toLowerCase()
+      if(content_type === 'json'){
+        this.setState({
+          temp_data:JSON.stringify(data[add_method[this.state.index]].example, undefined, 2),
+          data_to_send:data[add_method[this.state.index]].example
+        })
+      }else if(content_type === 'form'){
+        let new_data_to_send = new FormData();
+        for(let key in data[add_method[this.state.index]].example){
+          new_data_to_send.append([key], data[add_method[this.state.index]].example[key].value)
+        }
+        this.setState({
+          temp_data:data[add_method[this.state.index]].example,
+          data_to_send:new_data_to_send
+        })
+      }
       this.setState({
         tab:'data',
         index:0,
@@ -45,14 +62,20 @@ class Docs extends React.Component{
         res_data:null,
         headers:{},
         res_header:null,
-        temp_data:JSON.stringify(data[add_method[this.state.index]].example, undefined, 2)
+        content_type:this.state.content_type_list[content_type]
       })
     }
 
     request(){
       let method = this.state.temp_method[this.state.index];
-      let data = JSON.parse(this.state.temp_data);
-      axios[method](BASE_URL_BACKEND + this.state.endpoint, data)
+      axios[method](BASE_URL_BACKEND + this.state.endpoint, 
+        this.state.data_to_send,
+        {
+          headers: {
+            'Content-Type': this.state.content_type
+          }
+        }
+      )
       .then(res=> {
         this.setState({
           res_data:JSON.stringify(res.data, undefined, 2),
@@ -105,63 +128,48 @@ class Docs extends React.Component{
       let data = this.state.data_from_api;
       if(data){
         let content_type = data[this.state.temp_method[this.state.index]]['content_type']
-        // let headers = []
-        // let index =0 ;
-        // this.state.temp_header.map(header => {
-        //   let key = Object.keys(header)[0]
-        //   let value = header[key]
-        //   headers.push(
-        //     <div className="header-field" key={key}>
-        //       <input 
-        //         type="text" 
-        //         value={key}
-        //         onChange={(e)=>{
-        //           if(index>0){
-        //             let temp = this.state.temp_header;
-        //             let new_key = e.target.value
-        //             let new_value = temp[index-1][key]
-        //             let new_obj = {[new_key]: new_value}
-        //             temp[index-1] = new_obj;
-        //             this.setState({
-        //               temp_header:temp
-        //             })
-        //           }
-        //         }}/> 
-        //       <input
-        //         onChange={(e)=>{
-        //           if(index>0){
-        //             let temp = this.state.temp_header;
-        //             temp[index-1][key] = e.target.value
-        //             this.setState({
-        //               temp_header:temp
-        //             })
-        //           }
-        //         }}
-        //         type="text" 
-        //         value={value}/>
-        //     </div>
-        //   )
-        //   index++;
-        // })
-        // headers.push(<div><button onClick={()=>{
-        //   this.setState({temp_header: [...this.state.temp_header, {"":""}]})
-        // }}>tambah</button></div>)
         let example_json = <textarea
           rows="10" 
           value={this.state.temp_data}
           onChange={(e)=>{
             this.gantiValue(e.target.value, 'temp_data')
+            this.gantiValue(e.target.value, 'data_to_send')
           }}>
         </textarea>
         let example_form = [];
         if (content_type === 'form'){
-          let data_parsed = JSON.parse(this.state.temp_data)
-          for (var key in data_parsed){
+          for (var key in this.state.temp_data){
+            let attr = {};
+            attr['key'] = key
+            attr['type'] = this.state.temp_data[key].type ? this.state.temp_data[key].type : 'text'
             example_form.push(
-              <tr key={key}><td style={{textTransform: 'capitalize'}}>{key}</td><td><input className="form-field" value={data_parsed[key]} name={key}/></td></tr>
+              <tr key={attr.key}>
+                <td style={{textTransform: 'capitalize'}}>{attr.key}</td>
+                <td>
+                <input 
+                  type={attr.type} 
+                  className="form-field"
+                  onChange={(e)=> {
+                    let new_temp_data = {...this.state.temp_data}
+                    let new_data_to_send = this.state.data_to_send
+                    let new_value;
+                    if(attr.type === 'text'){
+                      new_value = e.target.value;
+                    }else if(attr.type === 'file'){
+                      new_value = e.target.files[0];
+                    }
+                    new_data_to_send.set([attr.key], new_value)
+                    new_temp_data[attr.key].value = new_value
+                    this.setState({temp_data:new_temp_data})
+                    this.setState({data_to_send:new_data_to_send})
+                  }}
+                  value={attr.type === 'text' ? this.state.temp_data[attr.key].value : ''} 
+                  name={attr.key}/>
+                </td>
+              </tr>
             )
           }
-          example_form = <table style={{width: '100%'}}>{example_form}</table>
+          example_form = <table style={{width: '100%'}}><tbody>{example_form}</tbody></table>
         }
         let example_data = content_type === 'json' ? example_json : example_form;
         return (
@@ -180,7 +188,7 @@ class Docs extends React.Component{
                 }
               }
               }>{this.state.temp_method[this.state.index]}</div>
-              <div>{data['endpoint']}</div>
+              <div><input className="endpoint-field" value={this.state.endpoint} onChange={(e)=>{this.gantiValue(e.target.value, 'endpoint')}}/></div>
               {
                 content_type ? 
                 <div>

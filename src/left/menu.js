@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
-const BASE_URL_MENU = 'http://192.168.8.102:9009';
+const BASE_URL_MENU = 'http://192.168.8.117:9009';
 class Menu extends React.Component{
     constructor(props){
         super(props);
