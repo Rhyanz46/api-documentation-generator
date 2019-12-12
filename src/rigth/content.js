@@ -17,11 +17,6 @@ class Content extends React.Component {
           <div>
             <Switch>
               <Route path="/docs">
-                {
-                  /* <div>
-                      mantap baru ini guys {this.props['link']}
-                    </div> */
-                }
                 <Docs waw={this.props['link']}/>
               </Route>
               <Route path="/users">

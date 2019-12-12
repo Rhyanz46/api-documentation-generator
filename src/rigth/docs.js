@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 
-// http://35.198.246.127:1435
 const BASE_URL_BACKEND = "http://35.198.246.127:1435";
 
 class Docs extends React.Component{
@@ -22,6 +21,7 @@ class Docs extends React.Component{
           'json' : 'application/json',
           'form' : 'multipart/form-data'
         },
+        headers:{},
         res_data:null
       }
     }
@@ -60,7 +60,10 @@ class Docs extends React.Component{
         data_from_api:props.waw,
         endpoint:data['endpoint'],
         res_data:null,
-        headers:{},
+        headers:{
+          ...this.state.headers, 
+          ...data[add_method[this.state.index]].header
+        },
         res_header:null,
         content_type:this.state.content_type_list[content_type]
       })
@@ -68,15 +71,18 @@ class Docs extends React.Component{
 
     request(){
       let method = this.state.temp_method[this.state.index];
-      axios[method](BASE_URL_BACKEND + this.state.endpoint, 
-        this.state.data_to_send,
-        {
-          headers: {
-            'Content-Type': this.state.content_type
-          }
-        }
-      )
+      let content_type = { 'Content-Type': this.state.content_type }
+      let headers = {...this.state.headers, ...content_type}
+
+      let new_axios = axios.create({
+        baseURL: BASE_URL_BACKEND,
+        headers: headers
+      });
+
+      console.log(headers)
+      new_axios[method](this.state.endpoint, this.state.data_to_send)
       .then(res=> {
+        console.log(res)
         this.setState({
           res_data:JSON.stringify(res.data, undefined, 2),
           res_header:JSON.stringify(res.headers, undefined, 2),
@@ -84,6 +90,7 @@ class Docs extends React.Component{
       })
       .catch(res=>{
           try {
+            console.log(res.response)
             if(res.response['status'] === 405){
               this.setState({
                 res_data:"method not allowed"
@@ -114,7 +121,8 @@ class Docs extends React.Component{
 
     reset(){
       this.setState({
-        res_data:null
+        res_data:null,
+        res_header:null
       })
     }
 
@@ -127,7 +135,8 @@ class Docs extends React.Component{
     render(){
       let data = this.state.data_from_api;
       if(data){
-        let content_type = data[this.state.temp_method[this.state.index]]['content_type']
+        let data_seleted_const = this.state.data_from_api[this.state.temp_method[this.state.index]];
+        let content_type = data_seleted_const.content_type;
         let example_json = <textarea
           rows="10" 
           value={this.state.temp_data}
@@ -171,9 +180,36 @@ class Docs extends React.Component{
           }
           example_form = <table style={{width: '100%'}}><tbody>{example_form}</tbody></table>
         }
+        let headers = [];
+        if(this.state.data_from_api[this.state.temp_method[this.state.index]].header){
+          for(let header_key in this.state.headers){
+            let attr = {}
+            attr['key'] = header_key
+            headers.push(<tr key={attr.key}>
+              <td>{header_key}</td>
+              <td>
+                <input 
+                  type='text' 
+                  className="form-field"
+                  value={this.state.headers[attr.key]}
+                  onChange={
+                    (e) => {
+                      let content_type = { [attr.key]: e.target.value }
+                      console.log(attr.key)
+                      this.setState({
+                        headers:{...this.state.headers, ...content_type}
+                      })
+                    }
+                  }/>
+              </td>
+            </tr>)
+          }
+        headers = <table style={{width: '100%'}}><tbody>{headers}</tbody></table>
+        }
         let example_data = content_type === 'json' ? example_json : example_form;
         return (
           <React.Fragment>
+          <div id="field_token">Masukkan Token : <input type="text"/></div>
           <div className="doc-container">
             <div className="header-swagger">
               <div 
@@ -186,9 +222,16 @@ class Docs extends React.Component{
                     this.setState({index:1})
                   }
                 }
-              }
-              }>{this.state.temp_method[this.state.index]}</div>
-              <div><input className="endpoint-field" value={this.state.endpoint} onChange={(e)=>{this.gantiValue(e.target.value, 'endpoint')}}/></div>
+              }}>
+              {this.state.temp_method[this.state.index]}</div>
+              <div>
+                <input
+                  className="endpoint-field"
+                  value={this.state.endpoint}
+                  onChange={
+                    (e)=>{this.gantiValue(e.target.value, 'endpoint')}
+                  }/>
+              </div>
               {
                 content_type ? 
                 <div>
@@ -214,22 +257,22 @@ class Docs extends React.Component{
                   }>
                   example data
                 </span>
-                {/* <span 
+                <span 
                   onClick={
                     () => {
                       this.setState({tab:'header'})
                     }
                   }>
-                  | set headers <span style={{textTransform:"none", color:"red"}}>(bug)</span>
-                </span> */}
+                  | set headers <span style={{textTransform:"none", color:"red"}}>(hot)</span>
+                </span>
               </h4>
               {
                 this.state.tab === "data" ? example_data : ''
               }
-              {/* {this.state.tab === "header" ? headers : ''} */}
+              {this.state.tab === "header" ? headers : ''}
             </div>
             <div className="doc-actions">
-              <button className="btn-send-doc" onClick={() => this.request()}>Send</button>
+              <button className="btn-send-doc" onClick={() => this.request()}>Send {data_seleted_const.protect ? <span style={{color:'#190c0c'}}>(protected)</span> : ''}</button>
               <button className="btn-reset-doc" onClick={() => this.reset()}>Reset</button>
             </div>
           </div>

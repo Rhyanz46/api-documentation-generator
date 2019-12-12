@@ -72,6 +72,7 @@ code {
   font-weight: bold;
 }
 
+
 .header-swagger > div:nth-child(2) {
   margin-left: 10px;
   color: black;
@@ -182,6 +183,7 @@ code {
   color: white;
   border-radius: 3px;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .btn-reset-doc{
@@ -190,6 +192,7 @@ code {
   padding: 15px 34px;
   color: white;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .actions-doc{
@@ -237,4 +240,8 @@ code {
   border: none;
   color: #7b4a00;
   width: 90%;
+}
+
+#field_token{
+  display: none;
 }

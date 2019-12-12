@@ -1,0 +1,12 @@
+{
+    "title": "login akun",
+    "endpoint": "/user/log_in",
+    "post" : {
+        "example": {
+            "identity" : "google",
+            "password" : "google123"
+        },
+        "desc": "kamu harus register telebih dahulu",
+        "content_type": "json"
+    }
+}
