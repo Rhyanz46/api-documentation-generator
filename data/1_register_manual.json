@@ -1,5 +1,5 @@
 {
-    "title":"akun",
+    "title":"register akun",
     "endpoint": "/user/sign_up",
     "desc": "mantap jiwa memang",
     "post": {

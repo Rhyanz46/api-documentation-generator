@@ -267,7 +267,7 @@ class Docs extends React.Component{
                 </span>
               </h4>
               {
-                this.state.tab === "data" ? example_data : ''
+                this.state.tab === "data" ? this.state.temp_data ? example_data : 'tidak memerlukan data' : ''
               }
               {this.state.tab === "header" ? headers : ''}
             </div>

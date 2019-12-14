@@ -1,6 +1,7 @@
 {
     "title": "login akun",
     "endpoint": "/user/log_in",
+    "desc": "login kamu coba liat",
     "post" : {
         "example": {
             "identity" : "google",

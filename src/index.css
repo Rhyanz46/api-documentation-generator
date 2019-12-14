@@ -26,12 +26,12 @@ code {
   position: fixed;
 }
 
-.flexMenu > div:nth-child(1) > nav > ul > li > a {
+.flexMenu > div:nth-child(1) > nav > ul > a {
   color: white;
   text-decoration: none;
 }
 
-.flexMenu > div:nth-child(1) > nav > ul > li{
+.flexMenu > div:nth-child(1) > nav > ul > a >li{
   list-style-type: none;
 }
 
@@ -244,4 +244,9 @@ code {
 
 #field_token{
   display: none;
+}
+
+.list-menu{
+  padding: 5px;
+  margin-bottom: 10px;
 }

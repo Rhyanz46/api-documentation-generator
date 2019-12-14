@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
-const BASE_URL_MENU = 'http://192.168.8.107:9009';
+// const BASE_URL_MENU = 'http://192.168.8.107:9009';
+const BASE_URL_MENU = 'http://localhost:9009';
 class Menu extends React.Component{
     constructor(props){
         super(props);
@@ -22,6 +23,7 @@ class Menu extends React.Component{
     }
 
     gantimenu(file_name){
+        console.log(file_name)
         axios.get(`${BASE_URL_MENU}/docs?part=${file_name}`)
         .then(res => {
             this.props.tampilkan(res.data.data);
@@ -32,20 +34,29 @@ class Menu extends React.Component{
         if (this.state.data){
             let resutl = [];
             for (let key in this.state.data){
-                if(this.state.data.hasOwnProperty(key)){
+                // console.log(typeof(this.state.data[key]))
+                let type = typeof(this.state.data[key])
+                if(type === 'string'){
                   let file_name = `${key}_${this.state.data[key]}`;
                   file_name = file_name.split(' ').join('_')
                   resutl.push(
-                    <li key={key}>
-                        <Link style={{textTransform: 'capitalize'}} onClick={()=>this.gantimenu(file_name)} to={'docs#' + this.state.data[key]}>{this.state.data[key]}</Link>
-                    </li>
+                    <Link 
+                        style={{textTransform: 'capitalize'}} 
+                        onClick={()=>this.gantimenu(file_name)} 
+                        to={'docs#' + this.state.data[key]}>
+                            <li key={key} className="list-menu" >
+                                {this.state.data[key]}
+                            </li>
+                    </Link>
                   )
+                }else if(type === 'object'){
+                    console.log("object")
                 }
             }
             return (
                 <div>
                     {
-                    <nav>
+                    <nav style={{position:'absolute'}}>
                         <ul>
                             {
                                 resutl.map(listitem => (

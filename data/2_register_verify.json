@@ -1,5 +1,5 @@
 {
-    "title":"akun",
+    "title":"verify akun",
     "endpoint": "/user/verify?code=<code_register>",
     "desc": "ambil kode verifikasi di email yg kamu register, kemudian tambahkan di parameter endpoint",
     "post": {
@@ -36,7 +36,6 @@
                 "value": 21212
             }
         },
-        "desc": null,
         "header": null,
         "content_type": "form"
     }
