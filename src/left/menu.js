@@ -23,7 +23,6 @@ class Menu extends React.Component{
     }
 
     gantimenu(file_name){
-        console.log(file_name)
         axios.get(`${BASE_URL_MENU}/docs?part=${file_name}`)
         .then(res => {
             this.props.tampilkan(res.data.data);
@@ -38,19 +37,45 @@ class Menu extends React.Component{
                 let type = typeof(this.state.data[key])
                 if(type === 'string'){
                   let file_name = `${key}_${this.state.data[key]}`;
-                  file_name = file_name.split(' ').join('_')
+                  let link_a = file_name.split(' ').join('_')
                   resutl.push(
                     <Link 
+                        key={key}
                         style={{textTransform: 'capitalize'}} 
-                        onClick={()=>this.gantimenu(file_name)} 
-                        to={'docs#' + this.state.data[key]}>
-                            <li key={key} className="list-menu" >
+                        onClick={()=>this.gantimenu(link_a)} 
+                        to={'docs#' + this.state.data[key] + "dad"}>
+                            <li className="list-menu" >
                                 {this.state.data[key]}
                             </li>
                     </Link>
                   )
                 }else if(type === 'object'){
-                    console.log("object")
+                    let file_name = `${key}_${this.state.data[key].nama}`
+                    let link_a = file_name.split(' ').join('_')
+                    let link_sub = [];
+                    for(let keyy in this.state.data[key].sub){
+                        let file_name_sub = `${keyy}_${this.state.data[key].sub[keyy]}`
+                        let link_b = link_a + '/' +file_name_sub.split(' ').join('_')
+                        link_sub.push(
+                            <Link 
+                                key={keyy}
+                                style={{textTransform: 'capitalize'}} 
+                                onClick={()=>this.gantimenu(link_b)} 
+                                to={`docs#${this.state.data[key].sub[keyy]}`}>
+                                    <li className="list-menu" >
+                                       {this.state.data[key].sub[keyy]}
+                                    </li>
+                            </Link>
+                        )
+                    }
+                    resutl.push(
+                        <li key={key} className="list-menu" style={{textTransform: 'capitalize'}}>
+                            {this.state.data[key].nama}
+                            <ul>
+                                {link_sub}
+                            </ul>
+                        </li>
+                    )
                 }
             }
             return (

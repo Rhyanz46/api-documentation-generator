@@ -1,0 +1,69 @@
+{
+    "title":"register akun",
+    "endpoint": "/company/new",
+    "desc": "mantap jiwa memang",
+    "post": {
+        "example": {
+            "name_company": {
+                "value" : "PT Netzen Media Aksess"
+            },
+            "identity" : {
+                "value": "google"
+            },
+            "no_npwp": {
+                "value": "google"
+            },
+            "description": {
+                "value": "google"
+            },
+            "no_akta": {
+                "value": "google"
+            },
+            "img_akta": {
+                "value": "google",
+                "type": "file"
+            },
+            "img_company": {
+                "value": "google",
+                "type": "file"
+            },
+            "img_npwp": {
+                "value": "google",
+                "type": "file"
+            },
+            "no_siup": {
+                "value": "google"
+            },
+            "img_siup": {
+                "value": "google",
+                "type": "file"
+            },
+            "no_tdp": {
+                "value": "google"
+            },
+            "img_tdp": {
+                "value": "google",
+                "type": "file"
+            },
+            "no_shipping_permit": {
+                "value": "google"
+            },
+            "img_shipping_permit": {
+                "value": "google",
+                "type": "file"
+            },
+            "no_nib": {
+                "value": "google"
+            },
+            "img_nib": {
+                "value": "google",
+                "type": "file"
+            }
+        },
+        "desc": null,
+        "content_type": "form",
+        "header": {
+            "Authorization" : "Bearer <token>"
+        }
+    }
+}

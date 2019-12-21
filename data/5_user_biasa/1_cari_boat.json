@@ -1,0 +1,8 @@
+{
+    "title": "pencarian boat",
+    "endpoint": "/transportation/boat/search?from=us&to=id&date=2-10-2020&total_seat=4",
+    "get" : {
+        "desc": null,
+        "content_type": "json"
+    }
+}

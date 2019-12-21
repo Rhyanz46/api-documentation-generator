@@ -1,6 +1,6 @@
 {
     "title":"akun",
-    "endpoint": "/user/sign_up",
+    "endpoint": "/user/sign_dedeup",
     "desc": "mantap jiwa memang",
     "post": {
         "example": {

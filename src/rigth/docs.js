@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const BASE_URL_BACKEND = "http://35.198.246.127:1435";
+const BASE_URL_BACKEND = "http://localhost:1435";
 
 class Docs extends React.Component{
     constructor(props){
@@ -29,44 +29,51 @@ class Docs extends React.Component{
     componentWillReceiveProps(props){
       let data = props.waw;
       let add_method = [];
-      if(Object.keys(data).includes('post')){
-        add_method.push('post')
-      }
-      if(Object.keys(data).includes('get')){
-        add_method.push('get')
-      }
-      let content_type = data[add_method[this.state.index]].content_type.toLowerCase()
-      if(content_type === 'json'){
-        this.setState({
-          temp_data:JSON.stringify(data[add_method[this.state.index]].example, undefined, 2),
-          data_to_send:data[add_method[this.state.index]].example
-        })
-      }else if(content_type === 'form'){
-        let new_data_to_send = new FormData();
-        for(let key in data[add_method[this.state.index]].example){
-          new_data_to_send.append([key], data[add_method[this.state.index]].example[key].value)
+      if(data){
+        if(Object.keys(data).includes('post')){
+          add_method.push('post')
+        }
+        if(Object.keys(data).includes('get')){
+          add_method.push('get')
+        }
+        if(Object.keys(data).includes('put')){
+          add_method.push('put')
+        }
+        let content_type = data[add_method[this.state.index]].content_type.toLowerCase()
+        if(content_type === 'json'){
+          this.setState({
+            temp_data:JSON.stringify(data[add_method[this.state.index]].example, undefined, 2),
+            data_to_send:data[add_method[this.state.index]].example
+          })
+        }else if(content_type === 'form'){
+          let new_data_to_send = new FormData();
+          for(let key in data[add_method[this.state.index]].example){
+            new_data_to_send.append([key], data[add_method[this.state.index]].example[key].value)
+          }
+          this.setState({
+            temp_data:data[add_method[this.state.index]].example,
+            data_to_send:new_data_to_send
+          })
         }
         this.setState({
-          temp_data:data[add_method[this.state.index]].example,
-          data_to_send:new_data_to_send
+          tab:'data',
+          index:0,
+          title:data['title'],
+          desc:data['desc'],
+          temp_method:add_method,
+          data_from_api:props.waw,
+          endpoint:data['endpoint'],
+          res_data:null,
+          headers:{
+            ...this.state.headers, 
+            ...data[add_method[this.state.index]].header
+          },
+          res_header:null,
+          content_type:this.state.content_type_list[content_type]
         })
+      }else{
+        console.log("ada is not valid")
       }
-      this.setState({
-        tab:'data',
-        index:0,
-        title:data['title'],
-        desc:data['desc'],
-        temp_method:add_method,
-        data_from_api:props.waw,
-        endpoint:data['endpoint'],
-        res_data:null,
-        headers:{
-          ...this.state.headers, 
-          ...data[add_method[this.state.index]].header
-        },
-        res_header:null,
-        content_type:this.state.content_type_list[content_type]
-      })
     }
 
     request(){
@@ -285,11 +292,19 @@ class Docs extends React.Component{
                   data response 
                 </span> 
                 <span 
-                  style={{cursor:'pointer'}}
+                  style={{cursor:'pointer', marginRight:'10px'}}
                   onClick={()=> this.gantiValue('header', 'res_show')}>
                   header response
                 </span>
+                <span
+                style={{color:'yellow', cursor:'pointer', marginRight:'10px'}}
+                onClick={()=>{
+                  document.getElementById('modal').style.display = 'block'
+                }}>
+                  show variabel
+                </span>
               </h4>
+
               <pre className="doc-response">
                 {
                   this.state.res_show === "data" ? 
