@@ -27,18 +27,23 @@ class Docs extends React.Component{
     }
 
     componentWillReceiveProps(props){
+      this.setState({
+        index:0
+      })
+
       let data = props.waw;
       let add_method = [];
       if(data){
-        if(Object.keys(data).includes('post')){
-          add_method.push('post')
-        }
         if(Object.keys(data).includes('get')){
           add_method.push('get')
+        }
+        if(Object.keys(data).includes('post')){
+          add_method.push('post')
         }
         if(Object.keys(data).includes('put')){
           add_method.push('put')
         }
+        // console.log(data)
         let content_type = data[add_method[this.state.index]].content_type.toLowerCase()
         if(content_type === 'json'){
           this.setState({
@@ -64,12 +69,12 @@ class Docs extends React.Component{
           data_from_api:props.waw,
           endpoint:data['endpoint'],
           res_data:null,
+          res_header:null,
+          content_type:this.state.content_type_list[content_type],
           headers:{
             ...this.state.headers, 
             ...data[add_method[this.state.index]].header
-          },
-          res_header:null,
-          content_type:this.state.content_type_list[content_type]
+          }
         })
       }else{
         console.log("ada is not valid")
@@ -86,7 +91,7 @@ class Docs extends React.Component{
         headers: headers
       });
 
-      console.log(headers)
+      // console.log(headers)
       new_axios[method](this.state.endpoint, this.state.data_to_send)
       .then(res=> {
         console.log(res)
@@ -142,50 +147,69 @@ class Docs extends React.Component{
     render(){
       let data = this.state.data_from_api;
       if(data){
-        let data_seleted_const = this.state.data_from_api[this.state.temp_method[this.state.index]];
-        let content_type = data_seleted_const.content_type;
-        let example_json = <textarea
-          rows="10" 
-          value={this.state.temp_data}
-          onChange={(e)=>{
-            this.gantiValue(e.target.value, 'temp_data')
-            this.gantiValue(e.target.value, 'data_to_send')
-          }}>
-        </textarea>
-        let example_form = [];
-        if (content_type === 'form'){
-          for (var key in this.state.temp_data){
-            let attr = {};
-            attr['key'] = key
-            attr['type'] = this.state.temp_data[key].type ? this.state.temp_data[key].type : 'text'
-            example_form.push(
-              <tr key={attr.key}>
-                <td style={{textTransform: 'capitalize'}}>{attr.key}</td>
-                <td>
-                <input 
-                  type={attr.type} 
-                  className="form-field"
-                  onChange={(e)=> {
-                    let new_temp_data = {...this.state.temp_data}
-                    let new_data_to_send = this.state.data_to_send
-                    let new_value;
-                    if(attr.type === 'text'){
-                      new_value = e.target.value;
-                    }else if(attr.type === 'file'){
-                      new_value = e.target.files[0];
-                    }
-                    new_data_to_send.set([attr.key], new_value)
-                    new_temp_data[attr.key].value = new_value
-                    this.setState({temp_data:new_temp_data})
-                    this.setState({data_to_send:new_data_to_send})
-                  }}
-                  value={attr.type === 'text' ? this.state.temp_data[attr.key].value : ''} 
-                  name={attr.key}/>
-                </td>
-              </tr>
-            )
+        let data_seleted = this.state.data_from_api[this.state.temp_method[this.state.index]];
+        let content_type_selected = data_seleted.content_type
+        // let method_selected = this.state.temp_method[this.state.index]
+        let data_selected_parsed = null;
+        let example_data =null;
+
+        if(content_type_selected === 'json'){
+          data_selected_parsed = JSON.stringify(data_seleted.example, undefined, 2)
+          example_data = <textarea
+                            rows="10" 
+                            value={this.state.temp_data}
+                            onChange={(e)=>{
+                              this.gantiValue(e.target.value, 'temp_data')
+                              this.gantiValue(e.target.value, 'data_to_send')
+                            }}>
+                          </textarea>
+          console.log('json')
+          console.log(data_seleted.example)
+        }else if(content_type_selected === 'form'){
+          let new_data_to_send = new FormData();
+          for(let key in data_seleted.example){
+            new_data_to_send.append([key], data_seleted.example[key].value)
           }
-          example_form = <table style={{width: '100%'}}><tbody>{example_form}</tbody></table>
+          data_selected_parsed = new_data_to_send
+
+          let example_form = [];
+            for (var key in this.state.temp_data){
+              let attr = {};
+              attr['key'] = key
+              attr['type'] = this.state.temp_data[key].type ? this.state.temp_data[key].type : 'text'
+              example_form.push(
+                <tr key={attr.key}>
+                  <td style={{textTransform: 'capitalize'}}>{attr.key}</td>
+                  <td>
+                  <input 
+                    type={attr.type} 
+                    className="form-field"
+                    onChange={(e)=> {
+                      let new_temp_data = {...this.state.temp_data}
+                      let new_data_to_send = this.state.data_to_send
+                      let new_value;
+                      if(attr.type === 'text'){
+                        new_value = e.target.value;
+                      }else if(attr.type === 'file'){
+                        new_value = e.target.files[0];
+                      }
+                      new_data_to_send.set([attr.key], new_value)
+                      new_temp_data[attr.key].value = new_value
+                      this.setState({temp_data:new_temp_data})
+                      this.setState({data_to_send:new_data_to_send})
+                    }}
+                    value={attr.type === 'text' ? this.state.temp_data[attr.key].value : ''} 
+                    name={attr.key}/>
+                  </td>
+                </tr>
+              )
+            }
+            example_form = <table style={{width: '100%'}}><tbody>{example_form}</tbody></table>
+            example_data = example_form
+            console.log('form')
+            console.log(data_seleted.example)
+        }else{
+          data_selected_parsed = null
         }
         let headers = [];
         if(this.state.data_from_api[this.state.temp_method[this.state.index]].header){
@@ -211,9 +235,9 @@ class Docs extends React.Component{
               </td>
             </tr>)
           }
-        headers = <table style={{width: '100%'}}><tbody>{headers}</tbody></table>
+          headers = <table style={{width: '100%'}}><tbody>{headers}</tbody></table>
         }
-        let example_data = content_type === 'json' ? example_json : example_form;
+
         return (
           <React.Fragment>
           <div id="field_token">Masukkan Token : <input type="text"/></div>
@@ -222,13 +246,14 @@ class Docs extends React.Component{
               <div 
               style={{cursor:'pointer'}}
               onClick={()=> {
-                if(this.state.temp_method.length > 1){
-                  if(this.state.index ===1){
-                    this.setState({index:0})
-                  }else{
-                    this.setState({index:1})
-                  }
+                if(this.state.index < this.state.temp_method.length-1){
+                  this.setState({index:this.state.index+1})
+                }else{
+                  this.setState({index:0})
                 }
+                this.setState({
+                  temp_data:data_seleted.example
+                })
               }}>
               {this.state.temp_method[this.state.index]}</div>
               <div>
@@ -240,9 +265,9 @@ class Docs extends React.Component{
                   }/>
               </div>
               {
-                content_type ? 
+                content_type_selected ? 
                 <div>
-                  {content_type}
+                  {content_type_selected}
                 </div>
                 : '' 
               }
@@ -270,7 +295,7 @@ class Docs extends React.Component{
                       this.setState({tab:'header'})
                     }
                   }>
-                  | set headers <span style={{textTransform:"none", color:"red"}}>(hot)</span>
+                  | set headers
                 </span>
               </h4>
               {
@@ -279,7 +304,7 @@ class Docs extends React.Component{
               {this.state.tab === "header" ? headers : ''}
             </div>
             <div className="doc-actions">
-              <button className="btn-send-doc" onClick={() => this.request()}>Send {data_seleted_const.protect ? <span style={{color:'#190c0c'}}>(protected)</span> : ''}</button>
+              <button className="btn-send-doc" onClick={() => this.request()}>Send {data_seleted.protect ? <span style={{color:'#190c0c'}}>(protected)</span> : ''}</button>
               <button className="btn-reset-doc" onClick={() => this.reset()}>Reset</button>
             </div>
           </div>
@@ -320,6 +345,17 @@ class Docs extends React.Component{
       }else{
         return (
           <div>
+            <div 
+              style={{cursor:'pointer'}}
+              onClick={()=> {
+                if(this.state.index < this.state.temp_method.length-1){
+                  this.setState({index:this.state.index+1})
+                }else{
+                  this.setState({index:0})
+                }
+              }}>
+                dipilih
+              </div>
             Loading . . . .
           </div>
         )

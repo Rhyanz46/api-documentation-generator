@@ -158,7 +158,7 @@ class App extends React.Component {
         </div>
         <div 
           id="modal"
-          style={{position: 'absolute', background: '#403838bf',top: '0px', width: '211vh', height: '100vh', display:'none'}}>
+          style={{position: 'absolute', background: 'rgba(127, 132, 199, 0.75)',top: '0px', width: '211vh', height: '100vh', display:'none'}}>
             <div 
             style={{
               background: 'rgba(241, 241, 241, 0.75)', 

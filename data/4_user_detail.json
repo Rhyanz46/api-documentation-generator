@@ -9,6 +9,17 @@
         "content_type": "json",
         "protect": true
     },
+    "post": {
+        "example": {
+            "title" : {
+                "value": "google"
+            },
+            "birth": {
+                "value": "google"
+            }
+        },
+        "content_type": "form"
+    },
     "put": {
         "example": {
             "fullname": {
