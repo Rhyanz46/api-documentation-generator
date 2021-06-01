@@ -109,3 +109,10 @@ just running `npm run dev`
 it's will running two services
 - React app ( port 3000)
 - Express backend ( port 9009)
+
+
+## Usage
+
+Choose one menu on the left
+
+![](ui.png?raw=true)
