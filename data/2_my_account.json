@@ -1,0 +1,17 @@
+{
+    "title":"verify akun",
+    "get" : {
+        "desc": null,
+        "header": {
+            "Authorization": "Bearer <token>"
+        },
+        "content_type": "json",
+        "protect": true
+    },
+    "endpoint": "http://sibooking.netzen.net.id/api/driver/v1/account",
+    "desc": "ambil kode verifikasi di email yg kamu register, kemudian tambahkan di parameter endpoint",
+    "post": {
+        "header": null,
+        "content_type": "form"
+    }
+}

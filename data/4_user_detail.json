@@ -22,35 +22,6 @@
     },
     "put": {
         "example": {
-            "fullname": {
-                "value" : "PT Netzen Media Aksess"
-            },
-            "title" : {
-                "value": "google"
-            },
-            "birth": {
-                "value": "google"
-            },
-            "gender": {
-                "value": "google"
-            },
-            "nationality_name": {
-                "value": "google"
-            },
-            "no_idcard": {
-                "value": "google"
-            },
-            "img_idcard": {
-                "value": "google",
-                "type": "file"
-            },
-            "no_npwp": {
-                "value": "google"
-            },
-            "img_npwp": {
-                "value": "google",
-                "type": "file"
-            },
             "photo_profile": {
                 "value": "google",
                 "type": "file"

@@ -1,11 +1,11 @@
 {
     "title": "login akun",
-    "endpoint": "/user/log_in",
+    "endpoint": "http://sibooking.netzen.net.id/api/driver/v1/account/login",
     "desc": "login kamu coba liat",
     "post" : {
         "example": {
-            "identity" : "google",
-            "password" : "google123"
+            "email": "host.localhost@gmail.com",
+            "password": "adadeh"
         },
         "desc": "kamu harus register telebih dahulu",
         "content_type": "json"
