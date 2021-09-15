@@ -53,7 +53,7 @@ data/
 - `<MethodName>.header` : Header formart for your endpoint
 - `<MethodName>.content_type` : It's can be json/form
 #### Example :
-```
+```json
 {
     "title": "detail akun",
     "endpoint": "https://google.com/account",
